@@ -1,4 +1,4 @@
-# Playing aroudn with forms
+# Typescript form coding exercise
 
 I'll write more stuff here when time comes
 
