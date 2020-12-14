@@ -7,9 +7,13 @@
   "dependencies": {
     "@emotion/react": "11.1.2",
     "@emotion/styled": "11.0.0",
+    "@types/react-datepicker": "3.1.2",
+    "@types/react-select": "3.0.28",
     "react": "17.0.0",
+    "react-datepicker": "3.3.0",
     "react-dom": "17.0.0",
-    "react-scripts": "3.3.0"
+    "react-scripts": "3.3.0",
+    "react-select": "3.1.1"
   },
   "devDependencies": {
     "@types/react": "16.9.19",
