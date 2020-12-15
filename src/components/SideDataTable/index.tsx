@@ -1,7 +1,32 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
+import { fetchData } from "../../logic/client";
 import { DataTableSection } from "./styles";
 
-export default function SideDataTable(props) {
+export default function SideDataTable() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetchData()
+      .then((result) => {
+        setData(result);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  const renderInnerTable = (tableData) => {
+    return tableData.map((el) => {
+      return (
+        <tr>
+          <td>
+            {el.first_name} {el.last_name}
+          </td>
+          <td>{el.country}</td>
+          <td>{el.birthday}</td>
+        </tr>
+      );
+    });
+  };
+
   return (
     <DataTableSection>
       <table>
@@ -12,18 +37,7 @@ export default function SideDataTable(props) {
             <th>Birthday</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>Marion Suarez</td>
-            <td>Argentina</td>
-            <td>15/03/90</td>
-          </tr>
-          <tr>
-            <td>Jose Kim</td>
-            <td>Mexico</td>
-            <td>14/04/99</td>
-          </tr>
-        </tbody>
+        <tbody>{renderInnerTable(data)}</tbody>
       </table>
     </DataTableSection>
   );

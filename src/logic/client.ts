@@ -16,3 +16,9 @@ export async function postData(url = "", data = {}) {
   });
   return response.json(); // parses JSON response into native JavaScript objects
 }
+
+export async function fetchData() {
+  const endpoint =
+    "https://run.mocky.io/v3/68286e76-197a-402d-9852-84a47c82b6a6";
+  return fetch(endpoint).then((response) => response.json());
+}
