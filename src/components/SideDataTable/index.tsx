@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { fetchData } from "../../logic/client";
+import Footer from "../Footer";
 import { DataTableSection } from "./styles";
 
-export default function SideDataTable() {
+export default function SideDataTable(props) {
+  const { name } = { ...props };
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -39,6 +41,7 @@ export default function SideDataTable() {
         </thead>
         <tbody>{renderInnerTable(data)}</tbody>
       </table>
+      <Footer>{name}</Footer>
     </DataTableSection>
   );
 }

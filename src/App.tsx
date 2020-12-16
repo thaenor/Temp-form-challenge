@@ -1,11 +1,13 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { Global, css } from "@emotion/react";
-import { Layout, Heading, Footer } from "./styles";
+import { Layout, Heading } from "./styles";
 
 import SideForm from "./components/SideForm";
 import SideDataTable from "./components/SideDataTable";
 
 export default function App() {
+  const [fullName, setName] = useState();
+
   return (
     <>
       <Global
@@ -25,12 +27,11 @@ export default function App() {
           }
         `}
       />
-      <Heading>Some Title</Heading>
+      <Heading>Main Title</Heading>
       <Layout>
-        <SideForm />
-        <SideDataTable />
+        <SideForm setName={setName} />
+        <SideDataTable name={fullName} />
       </Layout>
-      <Footer>This is the footer</Footer>
     </>
   );
 }

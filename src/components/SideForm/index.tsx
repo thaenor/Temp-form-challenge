@@ -5,14 +5,15 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import { SideFormSection, Form, Label, Input, SubmitBtn } from "./styles";
 import "react-datepicker/dist/react-datepicker.css";
+import "./styles.css";
 
-export default function SideForm() {
+export default function SideForm(props) {
+  const { setName } = { ...props };
   const [firstName, setFirstName] = useState("");
   const [surname, setSurname] = useState("");
   const [countries, setCountries] = useState("");
   const [validations, setValidations] = useState([""]);
   const [formSubmited, setSubmitedState] = useState(false);
-  const now = new Date();
   const [bday, setBday] = useState("");
 
   const options = [
@@ -80,6 +81,7 @@ export default function SideForm() {
       postData(data)
         .then((result) => {
           setSubmitedState(true);
+          setName(firstName.concat(" ", surname));
         })
         .catch((err) => {
           alert("Oopps... smth went wrong");
@@ -125,7 +127,7 @@ export default function SideForm() {
         />
 
         <Label htmlFor="countriesSelect">Countries</Label>
-        <Select options={options} onChange={handleSelect} />
+        <Select className="country" options={options} onChange={handleSelect} />
 
         <Label htmlFor="bdayInput">Birthday:</Label>
         <DatePicker
@@ -133,6 +135,7 @@ export default function SideForm() {
           onChange={handleDate}
           value={bday}
           placeholderText="Enter date..."
+          className="datepicker"
         />
 
         {renderFormWarnings(validations)}

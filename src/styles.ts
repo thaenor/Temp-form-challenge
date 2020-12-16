@@ -10,7 +10,3 @@ export const Layout = styled.section`
 export const Heading = styled.h1`
   text-align: center;
 `;
-
-export const Footer = styled.footer`
-  grid-area: 3 / 1 / 4 / 3;
-`;
