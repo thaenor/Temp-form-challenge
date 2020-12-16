@@ -10,5 +10,9 @@
             "es2015"
         ],
         "jsx": "react"
-    }
+    },
+    "types": [
+        "@types/react-datepicker",
+        "@types/react-select"
+    ]
 }

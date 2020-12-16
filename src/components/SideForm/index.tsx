@@ -10,8 +10,10 @@ export default function SideForm() {
   const [firstName, setFirstName] = useState("");
   const [surname, setSurname] = useState("");
   const [countries, setCountries] = useState("");
+  const [validations, setValidations] = useState([""]);
+  const [formSubmited, setSubmitedState] = useState(false);
   const now = new Date();
-  const [bday, setBday] = useState(now);
+  const [bday, setBday] = useState("");
 
   const options = [
     { value: "Portugal", label: "Portugal" },
@@ -23,6 +25,18 @@ export default function SideForm() {
     { value: "Turkey", label: "Turkey" },
     { value: "Lebanon", label: "Lebanon" }
   ];
+  let requestResponse;
+
+  const appendErrorMsg = (msg: string) => {
+    if (!validations.includes(msg)) {
+      setValidations([...validations, msg]);
+    }
+  };
+
+  const removeWarning = (msg: string) => {
+    const altered_state = validations.filter((v) => v !== msg);
+    setValidations(altered_state);
+  };
 
   const handleNameInput = (evt) => setFirstName(evt.target.value);
 
@@ -30,7 +44,28 @@ export default function SideForm() {
 
   const handleSelect = (evt) => setCountries(evt.value);
 
-  const handleDate = (date) => setBday(date);
+  const handleDate = (date) => setBday(date.toLocaleDateString());
+
+  const validateForm = (data) => {
+    setValidations([]);
+    let validation = true;
+    if (data.first_name.length <= 0 || data.last_name.length <= 0) {
+      appendErrorMsg("You need to add a first and last name");
+      validation = false;
+    }
+
+    if (data.country.length <= 0) {
+      appendErrorMsg("you need to choose a country");
+      validation = false;
+    }
+
+    if (data.birth_day.length <= 0) {
+      appendErrorMsg("you need to set a birthday");
+      validation = false;
+    }
+
+    return validation;
+  };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -41,17 +76,39 @@ export default function SideForm() {
       birth_day: bday
     };
 
-    postData("https://example.com/answer", data).then((result) => {
-      if (result.ok) {
-        console.log(result.json());
-      }
+    if (validateForm(data)) {
+      postData(data)
+        .then((result) => {
+          setSubmitedState(true);
+        })
+        .catch((err) => {
+          alert("Oopps... smth went wrong");
+        });
+    }
+  };
+
+  const renderFormWarnings = (warnings: string[]) => {
+    return warnings.map((w) => {
+      return <p key={w.length}>{w}</p>;
     });
+  };
+
+  const renderGreeting = () => {
+    if (formSubmited) {
+      return (
+        <GreetingMsg
+          name={firstName.concat(" ", surname)}
+          country={countries}
+          date={bday}
+        />
+      );
+    }
   };
 
   return (
     <SideFormSection>
       <Form>
-        <Label htmlFor="nameInput">Name:</Label>
+        <Label htmlFor="nameInput">Name :</Label>
         <Input
           type="text"
           name="name"
@@ -59,7 +116,7 @@ export default function SideForm() {
           onChange={handleNameInput}
         />
 
-        <Label htmlFor="surnameInput">Surname</Label>
+        <Label htmlFor="surnameInput">Last name :</Label>
         <Input
           type="text"
           name="surname"
@@ -71,13 +128,19 @@ export default function SideForm() {
         <Select options={options} onChange={handleSelect} />
 
         <Label htmlFor="bdayInput">Birthday:</Label>
-        <DatePicker selected={bday} onChange={handleDate} />
+        <DatePicker
+          onSelect={handleDate}
+          onChange={handleDate}
+          value={bday}
+          placeholderText="Enter date..."
+        />
 
+        {renderFormWarnings(validations)}
         <SubmitBtn type="submit" onClick={handleSubmit}>
           Save
         </SubmitBtn>
       </Form>
-      <GreetingMsg />
+      {renderGreeting()}
     </SideFormSection>
   );
 }

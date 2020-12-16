@@ -16,7 +16,7 @@ export default function SideDataTable() {
   const renderInnerTable = (tableData) => {
     return tableData.map((el) => {
       return (
-        <tr>
+        <tr key={el.id}>
           <td>
             {el.first_name} {el.last_name}
           </td>

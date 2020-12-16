@@ -1,10 +1,14 @@
 import * as React from "react";
 import { GrettingsSection } from "./styles";
 
-export default function GreetingMsg() {
+export default function GreetingMsg(props) {
+  const { name, country, date } = { ...props };
+
   return (
     <GrettingsSection>
-      <p>Hello this is the gretting message</p>
+      <p>
+        Hello {name} from {country} on {date}{" "}
+      </p>
     </GrettingsSection>
   );
 }
