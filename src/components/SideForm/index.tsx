@@ -15,7 +15,7 @@ export default function SideForm(props) {
   const [countries, setCountries] = useState("");
   const [validations, setValidations] = useState([""]);
   const [formSubmited, setSubmitedState] = useState(false);
-  const [bday, setBday] = useState("");
+  const [bday, setBday] = useState(new Date("10/22/1991"));
 
   useEffect(() => {
     getCountries()
@@ -35,18 +35,13 @@ export default function SideForm(props) {
     }
   };
 
-  const removeWarning = (msg: string) => {
-    const altered_state = validations.filter((v) => v !== msg);
-    setValidations(altered_state);
-  };
-
   const handleNameInput = (evt) => setFirstName(evt.target.value);
 
   const handleSurnameInput = (evt) => setSurname(evt.target.value);
 
   const handleSelect = (evt) => setCountries(evt.value);
 
-  const handleDate = (date) => setBday(date.toLocaleDateString());
+  const handleDate = (date) => setBday(date);
 
   const validateForm = (data) => {
     setValidations([]);
@@ -138,7 +133,7 @@ export default function SideForm(props) {
         <DatePicker
           onSelect={handleDate}
           onChange={handleDate}
-          value={bday}
+          value={bday.toLocaleDateString()}
           placeholderText="Enter date..."
           className="datepicker"
         />

@@ -7,6 +7,14 @@ import SideDataTable from "./components/SideDataTable";
 
 export default function App() {
   const [fullName, setName] = useState();
+  const tableBody = [
+    {
+      id: 1,
+      first_name: "loading",
+      last_name: "...",
+      birthday: new Date().toLocaleDateString()
+    }
+  ];
 
   return (
     <>
@@ -30,7 +38,7 @@ export default function App() {
       <Heading>Main Title</Heading>
       <Layout>
         <SideForm setName={setName} />
-        <SideDataTable name={fullName} />
+        <SideDataTable name={fullName} body={tableBody} />
       </Layout>
     </>
   );

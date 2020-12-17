@@ -4,8 +4,8 @@ import Footer from "../Footer";
 import { DataTableSection } from "./styles";
 
 export default function SideDataTable(props) {
-  const { name } = { ...props };
-  const [data, setData] = useState([]);
+  const { name, body } = { ...props };
+  const [data, setData] = useState(body);
 
   useEffect(() => {
     fetchData()
