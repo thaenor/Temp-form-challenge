@@ -5,9 +5,10 @@ export default function GreetingMsg(props) {
   const { name, country, date } = { ...props };
 
   const calculateDate = (date: Date) => {
-    const year = date.getFullYear();
+    const year = new Date().getFullYear();
     const current_year = new Date().getFullYear();
-    return current_year - year;
+
+    return current_year - year + 1;
   };
 
   return (
