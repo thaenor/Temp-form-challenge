@@ -10,6 +10,7 @@ it("correctly composes the greeting message", () => {
   const full_name = "John Appleseed";
   const country = "USA";
   const birthday = new Date("10/31/1995");
+  const birthday_month = birthday.getMonth() + 1;
   const current_year = new Date().getFullYear();
   const expected_age = current_year - 1995;
 
@@ -36,8 +37,8 @@ it("correctly composes the greeting message", () => {
   const findDay = tree.children.find((el) => el === `${birthday.getDate()}`);
   expect(Number(findDay)).toBe(birthday.getDate());
 
-  const findMonth = tree.children.find((el) => el === `${birthday.getMonth()}`);
-  expect(Number(findMonth)).toBe(birthday.getMonth());
+  const findMonth = tree.children.find((el) => el === `${birthday_month}`);
+  expect(Number(findMonth)).toBe(birthday_month);
 
   expect(age).toBe(expected_age);
 });
