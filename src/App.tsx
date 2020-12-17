@@ -4,6 +4,7 @@ import { Layout, Heading } from "./styles";
 
 import SideForm from "./components/SideForm";
 import SideDataTable from "./components/SideDataTable";
+import "./components/i18n";
 
 export default function App() {
   const [fullName, setName] = useState();

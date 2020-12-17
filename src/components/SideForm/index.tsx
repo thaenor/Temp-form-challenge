@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation, Trans } from "react-i18next";
 import GreetingMsg from "../GreetingMsg";
 import { postData, getCountries } from "../../logic/client";
 import Select from "react-select";
@@ -9,6 +10,8 @@ import "./styles.css";
 
 export default function SideForm(props) {
   const { setName } = { ...props };
+  const { t, i18n } = useTranslation();
+  const [lang, setLang] = useState("en");
   const [firstName, setFirstName] = useState("");
   const [surname, setSurname] = useState("");
   const [dropdown, setDropdown] = useState([]);
@@ -18,6 +21,7 @@ export default function SideForm(props) {
   const [bday, setBday] = useState(new Date("10/22/1991"));
 
   useEffect(() => {
+    i18n.changeLanguage(lang);
     getCountries()
       .then((result) => {
         setDropdown(
@@ -85,6 +89,16 @@ export default function SideForm(props) {
     }
   };
 
+  const handleChangeLanguage = () => {
+    if (lang === "en") {
+      i18n.changeLanguage("pt");
+      setLang("pt");
+    } else {
+      i18n.changeLanguage("en");
+      setLang("en");
+    }
+  };
+
   const renderFormWarnings = (warnings: string[]) => {
     return warnings.map((w) => {
       return <p key={w.length}>{w}</p>;
@@ -106,7 +120,9 @@ export default function SideForm(props) {
   return (
     <SideFormSection>
       <Form>
-        <Label htmlFor="nameInput">Name :</Label>
+        <Label htmlFor="nameInput">
+          <Trans>name</Trans>
+        </Label>
         <Input
           type="text"
           name="name"
@@ -114,7 +130,9 @@ export default function SideForm(props) {
           onChange={handleNameInput}
         />
 
-        <Label htmlFor="surnameInput">Last name :</Label>
+        <Label htmlFor="surnameInput">
+          <Trans>last name</Trans>
+        </Label>
         <Input
           type="text"
           name="surname"
@@ -122,14 +140,18 @@ export default function SideForm(props) {
           onChange={handleSurnameInput}
         />
 
-        <Label htmlFor="countriesSelect">Countries</Label>
+        <Label htmlFor="countriesSelect">
+          <Trans>countries</Trans>
+        </Label>
         <Select
           className="country"
           options={dropdown}
           onChange={handleSelect}
         />
 
-        <Label htmlFor="bdayInput">Birthday:</Label>
+        <Label htmlFor="bdayInput">
+          <Trans>birthday</Trans>
+        </Label>
         <DatePicker
           onSelect={handleDate}
           onChange={handleDate}
@@ -140,7 +162,10 @@ export default function SideForm(props) {
 
         {renderFormWarnings(validations)}
         <SubmitBtn type="submit" onClick={handleSubmit}>
-          Save
+          <Trans>save</Trans>
+        </SubmitBtn>
+        <SubmitBtn type="button" onClick={handleChangeLanguage}>
+          <Trans>change language</Trans>
         </SubmitBtn>
       </Form>
       {renderGreeting()}
