@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GreetingMsg from "../GreetingMsg";
-import { postData } from "../../logic/client";
+import { postData, getCountries } from "../../logic/client";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import { SideFormSection, Form, Label, Input, SubmitBtn } from "./styles";
@@ -11,22 +11,23 @@ export default function SideForm(props) {
   const { setName } = { ...props };
   const [firstName, setFirstName] = useState("");
   const [surname, setSurname] = useState("");
+  const [dropdown, setDropdown] = useState([]);
   const [countries, setCountries] = useState("");
   const [validations, setValidations] = useState([""]);
   const [formSubmited, setSubmitedState] = useState(false);
   const [bday, setBday] = useState("");
 
-  const options = [
-    { value: "Portugal", label: "Portugal" },
-    { value: "France", label: "France" },
-    { value: "England", label: "England" },
-    { value: "Mexico", label: "Mexico" },
-    { value: "USA", label: "USA" },
-    { value: "Japan", label: "Japan" },
-    { value: "Turkey", label: "Turkey" },
-    { value: "Lebanon", label: "Lebanon" }
-  ];
-  let requestResponse;
+  useEffect(() => {
+    getCountries()
+      .then((result) => {
+        setDropdown(
+          result.map((r) => {
+            return { value: r.name, label: r.name };
+          })
+        );
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
   const appendErrorMsg = (msg: string) => {
     if (!validations.includes(msg)) {
@@ -127,7 +128,11 @@ export default function SideForm(props) {
         />
 
         <Label htmlFor="countriesSelect">Countries</Label>
-        <Select className="country" options={options} onChange={handleSelect} />
+        <Select
+          className="country"
+          options={dropdown}
+          onChange={handleSelect}
+        />
 
         <Label htmlFor="bdayInput">Birthday:</Label>
         <DatePicker
